@@ -39,6 +39,8 @@ class PatientRestController
         'country_code',
         "email",
         "DOB",
+        'pubpid',
+        'status',
     );
 
     public function __construct()

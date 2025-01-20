@@ -1,0 +1,14 @@
+diff --git a/src/RestControllers/PatientRestController.php b/src/RestControllers/PatientRestController.php
+index 9d2ac3164..12cf145b5 100644
+--- a/src/RestControllers/PatientRestController.php
++++ b/src/RestControllers/PatientRestController.php
+@@ -39,6 +39,8 @@ class PatientRestController
+         'country_code',
+         "email",
+         "DOB",
++        'pubpid',
++        'status',
+     );
+ 
+     public function __construct()
+
