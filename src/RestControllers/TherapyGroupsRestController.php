@@ -47,4 +47,11 @@ class TherapyGroupsRestController
 
         return RestControllerHelper::handleProcessingResult($processingResult, 200, true);
     }
+
+    public function put(string $tgid, array $data): array
+    {
+        $processingResult = $this->therapyGroupService->update($tgid, $data);
+
+        return RestControllerHelper::handleProcessingResult($processingResult, 200);
+    }
 }

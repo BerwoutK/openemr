@@ -37,9 +37,9 @@ class TherapyGroupsService extends BaseService
         $data = [
             'group_name' => $data['group_name'],
             'group_start_date' => $data['group_start_date'] ?? date('Y-m-d H:i:s'),
-            'group_type' => $data['group_type'],
-            'group_participation' => $data['group_participation'],
-            'group_status' => $data['group_status'],
+            'group_type' => $data['group_type'] ?? 1,
+            'group_participation' => $data['group_participation'] ?? 1,
+            'group_status' => $data['group_status'] ?? 10,
         ];
 
         $query = $this->buildInsertColumns($data);
@@ -167,6 +167,27 @@ SQL;
             ]);
         } else {
             $processingResult->addInternalError("error processing SQL Insert");
+        }
+
+        return $processingResult;
+    }
+
+    public function update(string $tgid, array $data): ProcessingResult
+    {
+        $processingResult = new ProcessingResult();
+
+        $query = $this->buildUpdateColumns($data);
+        $sql = " UPDATE " . $this::TABLE_NAME . " SET ";
+        $sql .= $query['set'];
+        $sql .= " WHERE `group_id` = ?";
+
+        $sqlResult = sqlStatement($sql, [$tgid]);
+        if ($sqlResult) {
+            $processingResult->addData([
+                'id' => $sqlResult
+            ]);
+        } else {
+            $processingResult->addInternalError("error processing SQL Update");
         }
 
         return $processingResult;

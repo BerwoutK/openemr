@@ -14,9 +14,9 @@ class TherapyGroupsValidator extends BaseValidator
             self::DATABASE_INSERT_CONTEXT,
             function (Validator $context) {
                 $context->required('group_name')->lengthBetween(2, 255);
-                $context->required('group_type');
-                $context->required('group_participation');
-                $context->required('group_status');
+                $context->optional('group_type');
+                $context->optional('group_participation');
+                $context->optional('group_status');
             }
         );
     }

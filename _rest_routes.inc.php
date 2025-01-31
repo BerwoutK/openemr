@@ -557,15 +557,46 @@ RestConfig::$ROUTE_MAP = array(
 
     /**
      *  @OA\Get(
-         path="/api/therapy_groups",
-         description="Retrieves a list of all therapy groups.",
-         tags={"standard"},
-         security={{"openemr_auth":{}}}
-     )
+     *   path="/api/therapy_groups",
+     *   description="Retrieves a list of all therapy groups.",
+     *   tags={"standard"},
+     *   security={{"openemr_auth":{}}}
+     *  )
      */
     "GET /api/therapy_groups" => function () {
         RestConfig::authorization_check("admin", "users");
         $return = (new TherapyGroupsRestController())->getAll();
+        RestConfig::apiLog($return);
+        return $return;
+    },
+
+    /**
+     *  @OA\Put(
+     *   path="/api/therapy_groups/:tgid",
+     *   description="Updates an existing therapy group.",
+     *   tags={"standard"},
+     *   security={{"openemr_auth":{}}}
+     *  )
+     */
+    "PUT /api/therapy_groups/:tgid" => function ($tgid) {
+        RestConfig::authorization_check("admin", "users");
+        $data = (array) (json_decode(file_get_contents("php://input")));
+        $return = (new TherapyGroupsRestController())->put($tgid, $data);
+        RestConfig::apiLog($return);
+        return $return;
+    },
+
+    /**
+     *  @OA\Get(
+     *   path="/api/therapy_groups/:tgid",
+     *   description="Retrieves a specific therapy group.",
+     *   tags={"standard"},
+     *   security={{"openemr_auth":{}}}
+     *  )
+     */
+    "GET /api/therapy_groups/:tgid" => function ($tgid) {
+        RestConfig::authorization_check("admin", "users");
+        $return = (new TherapyGroupsRestController())->getAll(['group_id' => $tgid]);
         RestConfig::apiLog($return);
         return $return;
     },
